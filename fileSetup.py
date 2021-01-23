@@ -29,7 +29,7 @@ for x in companies:
 
 # create table for models if one doesn't already exist
 # cursor.execute("DROP TABLE makeList") # WILL DELETE ALL STORED MODELS
-db.execute("CREATE TABLE IF NOT EXISTS modelList(_id INTEGER, make INTEGER, model TEXT, notes INT, start INTEGER, "
+db.execute("CREATE TABLE IF NOT EXISTS modelList(_id INTEGER, make INTEGER, model TEXT, notes INTEGER, start INTEGER, "
            "end INTEGER, info TEXT)")
 
 

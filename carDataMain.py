@@ -5,6 +5,7 @@ import tkinter
 import structures
 
 chosen_car = structures.Car()
+windows = structures.MoreWindow()
 
 
 if __name__ == '__main__':
@@ -69,7 +70,7 @@ if __name__ == '__main__':
     chosen_car.link_boxes(makeBox, modelBox, notesBox, None, None, infoBox)
 
     # buttons
-    newButton = tkinter.Button(main_window, text="Add new", width=10)
+    newButton = tkinter.Button(main_window, text="Add new", width=10, command=windows.new_button)
     newButton.grid(row=4, column=1, sticky="n", pady=(20, 0))
     editButton = tkinter.Button(main_window, text="Edit current", width=10)
     editButton.grid(row=5, column=1, sticky="n")

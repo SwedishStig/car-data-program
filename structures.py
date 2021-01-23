@@ -137,7 +137,8 @@ class Car(object):
 
         if value:
             # get all that good stuff from the sql library
-            make_id = "SELECT make FROM modelList where model = " + value[0]
+            make_id = "SELECT make FROM modelList WHERE model = '" + value[0] + "'"
+            print(make_id)
             self.cursor.execute(make_id)
             make_id = self.cursor.fetchall()[0][0]
 
@@ -145,23 +146,23 @@ class Car(object):
             self.cursor.execute(self.make)
             self.make = self.cursor.fetchall()[0][0]
 
-            self.model = "SELECT model FROM modelList WHERE model = " + value[0]
+            self.model = "SELECT model FROM modelList WHERE model = '" + value[0] + "'"
             self.cursor.execute(self.model)
             self.model = self.cursor.fetchall()
 
-            self.notes = "SELECT notes FROM modelList WHERE model = " + value[0]
+            self.notes = "SELECT notes FROM modelList WHERE model = '" + value[0] + "'"
             self.cursor.execute(self.notes)
             self.notes = self.cursor.fetchall()[0][0]
 
-            self.start = "SELECT start FROM modelList WHERE model = " + value[0]
+            self.start = "SELECT start FROM modelList WHERE model = '" + value[0] + "'"
             self.cursor.execute(self.start)
             self.start = self.cursor.fetchall()[0][0]
 
-            self.end = "SELECT end FROM modelList WHERE model = " + value[0]
+            self.end = "SELECT end FROM modelList WHERE model = '" + value[0] + "'"
             self.cursor.execute(self.end)
             self.end = self.cursor.fetchall()[0][0]
 
-            self.info = "SELECT info FROM modelList WHERE model = " + value[0]
+            self.info = "SELECT info FROM modelList WHERE model = '" + value[0] + "'"
             self.cursor.execute(self.info)
             self.info = self.cursor.fetchall()[0][0]
 
@@ -182,4 +183,156 @@ class Car(object):
             self.info_box.delete(0, 30)
             self.info_box.insert(0, self.info)
 
+
 # doohickey that opens a new window to add a car
+class MoreWindow(object):
+
+    def __init__(self):
+        # initialize variables for temporary attribute storage
+        self.make = None
+        self.model = None
+        self.notes = None
+        self.start = None
+        self.end = None
+        self.info = None
+
+        self.second_window = None
+        # for use with entry boxes
+        self.make_box = None
+        self.model_box = None
+        self.notes_box = None
+        self.start_box = None
+        self.end_box = None
+        self.info_box = None
+
+    def new_button(self):
+        # create window for adding a car
+        self.second_window = tkinter.Tk()
+        self.second_window.title("Add Car")
+        self.second_window.geometry("480x160")
+
+        # row and column setup
+        self.second_window.columnconfigure(0, weight=1)
+        self.second_window.columnconfigure(1, weight=1)
+        self.second_window.columnconfigure(2, weight=2)
+        self.second_window.columnconfigure(3, weight=1)
+        self.second_window.columnconfigure(4, weight=1)
+
+        self.second_window.rowconfigure(0, weight=1)
+        self.second_window.rowconfigure(1, weight=1)
+        self.second_window.rowconfigure(2, weight=1)
+        self.second_window.rowconfigure(3, weight=1)
+
+        # populate with boxes and labels
+        self.make_box = tkinter.Entry(self.second_window, width=15)
+        self.make_box.grid(row=0, column=0, sticky='sew', padx=(20, 0))
+
+        self.model_box = tkinter.Entry(self.second_window, width=15)
+        self.model_box.grid(row=0, column=2, sticky='sew')
+
+        self.notes_box = tkinter.Entry(self.second_window, width=15)
+        self.notes_box.grid(row=0, column=4, sticky='sew', padx=(0, 20))
+
+        self.start_box = tkinter.Entry(self.second_window, width=15)
+        self.start_box.grid(row=1, column=1, sticky='sew')
+
+        self.end_box = tkinter.Entry(self.second_window, width=15)
+        self.end_box.grid(row=1, column=3, sticky='sew')
+
+        self.info_box = tkinter.Entry(self.second_window, width=70)
+        self.info_box.grid(row=2, column=0, columnspan=5, sticky='sew', padx=(20, 20))
+
+        # add and cancel buttons
+        add = tkinter.Button(self.second_window, text="Add Car", command=self.add_button)
+        add.grid(row=3, column=1, sticky="w")
+        cancel = tkinter.Button(self.second_window, text="Cancel", command=self.second_window.destroy)
+        cancel.grid(row=3, column=3, sticky="w")
+
+        self.second_window.mainloop()
+
+    def change_button(self, present: Car):
+        # create window for changing currently selected car
+        self.second_window = tkinter.Tk()
+        self.second_window.title("Change Car")
+        self.second_window.geometry("480x160")
+
+        # row and column setup
+        self.second_window.columnconfigure(0, weight=1)
+        self.second_window.columnconfigure(1, weight=1)
+        self.second_window.columnconfigure(2, weight=2)
+        self.second_window.columnconfigure(3, weight=1)
+        self.second_window.columnconfigure(4, weight=1)
+
+        self.second_window.rowconfigure(0, weight=1)
+        self.second_window.rowconfigure(1, weight=1)
+        self.second_window.rowconfigure(2, weight=1)
+        self.second_window.rowconfigure(3, weight=1)
+
+        # populate with boxes and labels
+        self.make_box = tkinter.Entry(self.second_window, width=15)
+        self.make_box.grid(row=0, column=0, sticky='sew', padx=(20, 0))
+
+        self.model_box = tkinter.Entry(self.second_window, width=15)
+        self.model_box.grid(row=0, column=2, sticky='sew')
+
+        self.notes_box = tkinter.Entry(self.second_window, width=15)
+        self.notes_box.grid(row=0, column=4, sticky='sew', padx=(0, 20))
+
+        self.start_box = tkinter.Entry(self.second_window, width=15)
+        self.start_box.grid(row=1, column=1, sticky='sew')
+
+        self.end_box = tkinter.Entry(self.second_window, width=15)
+        self.end_box.grid(row=1, column=3, sticky='sew')
+
+        self.info_box = tkinter.Entry(self.second_window, width=70)
+        self.info_box.grid(row=2, column=0, columnspan=5, sticky='sew', padx=(20, 20))
+
+        # add and cancel buttons
+        add = tkinter.Button(self.second_window, text="Add Car", command=self.add_button)
+        add.grid(row=3, column=1, sticky="w")
+        cancel = tkinter.Button(self.second_window, text="Cancel", command=self.second_window.destroy)
+        cancel.grid(row=3, column=3, sticky="w")
+
+        self.second_window.mainloop()
+
+    def add_button(self):
+        # transfer info from boxes to data
+        if self.make_box.get() and self.model_box.get() and self.notes_box.get() and self.start_box.get() and self.end_box.get():
+            self.make = self.make_box.get()
+            self.model = self.model_box.get()
+            self.notes = self.notes_box.get()
+            self.start = self.start_box.get()
+            self.end = self.end_box.get()
+            self.info = self.info_box.get()
+
+        # set up sqlite connection
+        conn = sqlite3.connect("carInfo.sqlite")
+        cursor = conn.cursor()
+
+        # see if model already exists
+        cursor.execute("SELECT COUNT(*) FROM modelList where model = ?", (self.model,))
+        already = int(cursor.fetchall()[0][0])
+        if already:
+            # copy present id number if already exists
+            cursor.execute("SELECT _id FROM modelList WHERE model = ?", (self.model,))
+            model_id = int(cursor.fetchall()[0][0])
+            # delete the old data
+            cursor.execute("DELETE FROM modelList WHERE model = ?", (self.model,))
+        else:
+            # doesn't exist so generate new ID
+            cursor.execute("SELECT COUNT(*) FROM modelList")
+            model_id = int(cursor.fetchall()[0][0]) + 1
+
+        # get make for realsies
+        cursor.execute("SELECT _id FROM makeList WHERE make = ?", (self.make,))
+        self.make = cursor.fetchall()[0][0]
+
+        # transfer data to SQL database
+        print(model_id)
+        cursor.execute("INSERT INTO modelList VALUES (?, ?, ?, ?, ?, ?, ?)", (model_id, self.make, self.model, self.notes, self.start, self.end, self.info))
+        print("car successfully added")
+
+        # close window
+        conn.commit()
+        conn.close()
+        self.second_window.destroy()
